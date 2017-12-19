@@ -1,0 +1,25 @@
+{
+  "name": "spa",
+  "version": "1.0.0",
+  "description": "Single page application using JS and Handlebars",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shampur/spa.git"
+  },
+  "author": "Charan Shampur",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shampur/spa/issues"
+  },
+  "homepage": "https://github.com/shampur/spa#readme",
+  "dependencies": {
+    "handlebars": "^4.0.11"
+  },
+  "devDependencies": {
+    "gulp-connect": "^5.0.0"
+  }
+}
