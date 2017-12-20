@@ -7,16 +7,18 @@ var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
 var reactify = require('reactify');
 var sourcemaps = require('gulp-sourcemaps');
-var rename = require('gulp-rename');
+var watch = require('gulp-watch');
 
 var jsConfig = {
     entry: './js/init.js',
-    jsmapsdir: './dist/maps/js/',
+    jssrc: './js/',
+    jsmapsdir: './maps/',
     jsbuilddir: './dist/js/',
     cssbuilddir: './dist/css/',
-    cssmapsdir: './dist/maps/css/',
+    cssmapsdir: './maps/',
     outputfile: 'bundle.js',
-    sasssrc: './sass/'
+    sasssrc: './sass/',
+    builddir: './dist/'
 };
 
 
@@ -27,6 +29,20 @@ gulp.task('serve', function() {
     });
 });
 
+gulp.task('watch-and-reload', ['build'], function() {
+        return watch([jsConfig.cssbuilddir + '**', jsConfig.jsbuilddir + '**', jsConfig.builddir + '**'])
+        .pipe(connect.reload());
+});
+
+gulp.task('build', ['build-js', 'build-css', 'html']);
+
+gulp.task('watch', function(){
+    gulp.watch(jsConfig.sasssrc + '**', ['build-css']);
+    gulp.watch(jsConfig.jssrc + '**', ['build-js']);
+    gulp.watch('./index.html', ['html']);
+
+});
+
 gulp.task('build-js', function() {
     var b = browserify({
         entries: jsConfig.entry,
@@ -35,18 +51,25 @@ gulp.task('build-js', function() {
     });
 
     return b.bundle()
-        .pipe(source('app.js'))
+        .pipe(source(jsConfig.outputfile))
         .pipe(buffer())
-        .pipe(rename(jsConfig.outputfile))
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(sourcemaps.write(jsConfig.mapsdir))
-        .pipe(gulp.dest(jsConfig.builddir));
+        .pipe(sourcemaps.write(jsConfig.jsmapsdir))
+        .pipe(gulp.dest(jsConfig.jsbuilddir));
 });
 
 gulp.task('build-css', function() {
-    return gulp.src(jsConfig.sasssrc)
+    return gulp.src(jsConfig.sasssrc + '**')
+        .pipe(concat('app.css'))
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(sourcemaps.write(jsConfig.cssmapsdir))
         .pipe(gulp.dest(jsConfig.cssbuilddir));
 });
+
+gulp.task('html', function () {
+    gulp.src('./index.html')
+        .pipe(gulp.dest(jsConfig.builddir));
+});
+
+gulp.task('default', ['build', 'serve', 'watch', 'watch-and-reload']);
