@@ -1,5 +1,18 @@
-$primaryColor: #23aee0;
+@import "defaults";
 
-body{
-  background-color: $primaryColor;
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: $primaryFontFamily;
+  font-weight: $primaryFontWeight;
+  color: $primaryFontColor;
+}
+
+.sub-heading {
+  opacity: .6;
+  font-size: .7em;
+}
+
+.heading {
+  font-size: 1.2em;
 }

@@ -18,7 +18,9 @@ var jsConfig = {
     cssmapsdir: './maps/',
     outputfile: 'bundle.js',
     sasssrc: './sass/',
-    builddir: './dist/'
+    builddir: './dist/',
+    fontdir: './node_modules/font-awesome/**/*',
+    fontdistdir: './dist/font-awesome/'
 };
 
 
@@ -34,7 +36,7 @@ gulp.task('watch-and-reload', ['build'], function() {
         .pipe(connect.reload());
 });
 
-gulp.task('build', ['build-js', 'build-css', 'html']);
+gulp.task('build', ['build-js', 'build-css', 'fonts', 'html']);
 
 gulp.task('watch', function(){
     gulp.watch(jsConfig.sasssrc + '**', ['build-css']);
@@ -70,6 +72,11 @@ gulp.task('build-css', function() {
 gulp.task('html', function () {
     gulp.src('./index.html')
         .pipe(gulp.dest(jsConfig.builddir));
+});
+
+gulp.task('fonts', function() {
+   gulp.src(jsConfig.fontdir)
+       .pipe(gulp.dest(jsConfig.fontdistdir));
 });
 
 gulp.task('default', ['build', 'serve', 'watch', 'watch-and-reload']);

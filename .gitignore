@@ -62,3 +62,6 @@ typings/
 
 # dist folder
 dist/**
+
+# mac temp files
+.DS_Store
