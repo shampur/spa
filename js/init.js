@@ -1,11 +1,19 @@
 var $ = require('jquery');
+var handlebars = require('handlebars');
+var controllers = require('./controllers/controller');
 
 window.onload = function(ev) {
-    console.log('Document is loaded');
-    var appContainer = document.getElementById('spa-app');
-    appContainer.innerHTML = `<h4 style="color: white">The App is loading....</h4>`;
 
-    window.onhashchange = function() {
 
+    window.addEventListener('hashchange', function(){
+
+    });
+
+    var loadAppSkin = function() {
+        var menu = new controllers.menu();
+        menu.render();
     }
+
+    loadAppSkin();
 };
+

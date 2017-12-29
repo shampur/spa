@@ -65,3 +65,6 @@ dist/**
 
 # mac temp files
 .DS_Store
+
+# Handlebars precompile file
+templates/templates.js

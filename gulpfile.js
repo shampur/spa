@@ -8,6 +8,8 @@ var source = require('vinyl-source-stream');
 var reactify = require('reactify');
 var sourcemaps = require('gulp-sourcemaps');
 var watch = require('gulp-watch');
+var exec = require('child_process').exec;
+var colors = require('colors');
 
 var jsConfig = {
     entry: './js/init.js',
@@ -20,7 +22,9 @@ var jsConfig = {
     sasssrc: './sass/',
     builddir: './dist/',
     fontdir: './node_modules/font-awesome/**/*',
-    fontdistdir: './dist/font-awesome/'
+    handlebarsdir: './node_modules/handlebars/dist/handlebars.runtime.js',
+    fontdistdir: './dist/font-awesome/',
+    templatesdir: './templates/'
 };
 
 
@@ -32,20 +36,21 @@ gulp.task('serve', function() {
 });
 
 gulp.task('watch-and-reload', ['build'], function() {
-        return watch([jsConfig.cssbuilddir + '**', jsConfig.jsbuilddir + '**', jsConfig.builddir + '**'])
+    return watch([jsConfig.cssbuilddir + '**', jsConfig.jsbuilddir + '**', jsConfig.builddir + '**'])
         .pipe(connect.reload());
 });
 
-gulp.task('build', ['build-js', 'build-css', 'fonts', 'html']);
+gulp.task('build', ['handlebars', 'build-js', 'build-css', 'fonts', 'html']);
 
 gulp.task('watch', function(){
     gulp.watch(jsConfig.sasssrc + '**', ['build-css']);
     gulp.watch(jsConfig.jssrc + '**', ['build-js']);
     gulp.watch('./index.html', ['html']);
+    gulp.watch(jsConfig.templatesdir + '*.handlebars', ['build-js']);
 
 });
 
-gulp.task('build-js', function() {
+gulp.task('build-js', ['templates'], function() {
     var b = browserify({
         entries: jsConfig.entry,
         debug: true,
@@ -77,6 +82,21 @@ gulp.task('html', function () {
 gulp.task('fonts', function() {
    gulp.src(jsConfig.fontdir)
        .pipe(gulp.dest(jsConfig.fontdistdir));
+});
+
+gulp.task('handlebars', function(){
+    gulp.src(jsConfig.handlebarsdir)
+        .pipe(gulp.dest(jsConfig.builddir));
+});
+
+gulp.task('templates', function() {
+    exec('npm run compileTemplates', function(err, stdout, stderr){
+        if(err) {
+            console.log(colors.red(err));
+        } else {
+            console.log(colors.green('Templates Compiled Successfully!!'));
+        }
+    });
 });
 
 gulp.task('default', ['build', 'serve', 'watch', 'watch-and-reload']);
