@@ -1,6 +1,48 @@
-<div>
-    {{contents}}
-</div>
-<div>
-    {{userlist}}
+<div class="users">
+    {{#each userlist}}
+    <div class="user">
+        <div class="header">{{name}}</div>
+        <div class="sub-heading">{{email}}, &nbsp; &nbsp; {{phone}}</div>
+        <div class="content">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Street</td><td>{{address.street}}</td>
+                    </tr>
+                    <tr>
+                        <td>City</td><td>{{address.city}}</td>
+                    </tr>
+                    <tr>
+                        <td>Zip code</td><td>{{address.zipcode}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="content">
+            <table>
+                <thead>
+                <tr>
+                    <th colspan="2">Company</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Name</td><td>{{company.name}}</td>
+                </tr>
+                <tr>
+                    <td>Catch phrase</td><td>{{company.catchPhrase}}</td>
+                </tr>
+                <tr>
+                    <td>Website</td><td>{{website}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{/each}}
 </div>

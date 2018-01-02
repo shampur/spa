@@ -36,6 +36,7 @@ gulp.task('serve', function() {
 });
 
 gulp.task('watch-and-reload', ['build'], function() {
+    console.log(colors.green('Server reloading'));
     return watch([jsConfig.cssbuilddir + '**', jsConfig.jsbuilddir + '**', jsConfig.builddir + '**'])
         .pipe(connect.reload());
 });

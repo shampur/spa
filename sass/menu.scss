@@ -1,28 +1,50 @@
 @import 'defaults';
 
+@mixin sidebarTheme {
+  color: $sidebarTextColor;
+  background-color: $primaryColor;
+}
 .container {
-  height: 100%;
+  justify-content: stretch;
   display: grid;
   grid-template-columns: minmax(100px, 1fr) 6fr;
-  grid-template-rows: 1fr 7fr;
+  grid-template-rows: 100px 7fr;
   grid-template-areas:
-    "header content"
-    "sidebar content"
+          "header content"
+          "sidebar content"
 }
 
 .sidebar {
-  color: $sidebarTextColor;
-  background-color: $primaryColor;
+  @include sidebarTheme;
   box-shadow: 3px 0px 6px -1px rgba(105,106,107,1);
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(4, 1fr) 7fr;
+  grid-template-rows: repeat(4, 50px) 7fr;
   grid-area: sidebar;
+  min-height: 90vh;
+}
+
+@media only screen and (max-width: 1000px){
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 100px 60px 7fr;
+    grid-template-areas:
+            "header"
+            "sidebar"
+            "content"
+  }
+
+  .sidebar {
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: 1fr;
+    min-height: 0px;
+  }
 }
 
 .sidebar > .nav-item{
   padding: 10px;
   text-align: center;
+  cursor: pointer;
 }
 
 .content {
@@ -33,6 +55,7 @@
 .sidebar > .nav-item.active {
   opacity: .5;
   background-color: black;
+  cursor: default;
 }
 
 .header {

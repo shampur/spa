@@ -10,6 +10,8 @@ function MenuController() {
 MenuController.prototype.listen = function() {
     var sidebar = document.getElementsByClassName('sidebar')[0];
     var navItems = sidebar.getElementsByClassName('nav-item');
+
+    // Add a click handler for all the nav items.
     Array.prototype.forEach.call(navItems, function(itm){
         itm.addEventListener('click', function(ev) {
             var hash = ev.target.dataset.link;
@@ -20,6 +22,8 @@ MenuController.prototype.listen = function() {
             }
         });
     });
+
+    //Add a click handler for burger menu
 };
 
 MenuController.prototype.render = function(hash) {

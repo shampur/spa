@@ -12,7 +12,7 @@ UsersController.prototype.render = function() {
     var that = this;
     this.getUsers()
         .then(function(data){
-            var userlist = JSON.stringify(data);
+            var userlist = data;
             var context = globalConstants.users;
             context.userlist = userlist;
             var compiledTemplate = Handlebars.templates[that.template];
