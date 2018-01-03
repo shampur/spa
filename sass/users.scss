@@ -6,16 +6,31 @@
   flex-wrap: wrap;
 }
 
-.user {
+@mixin cardStyle {
   box-sizing: border-box;
-  width:350px;
   padding: 15px;
   background: $appElementColor;
-  border-left: 20px solid gray;
+  border-left: 30px solid gray;
   .content{
-    margin-top: 5px;
+    margin-top: 2px;
   }
-  margin-top: 10px;
+  margin-top: 15px;
+  box-shadow: 0px 0px 4px 0px rgba(107,106,107,0.8);
+}
 
+.user {
+  width: 350px;
+  @include cardStyle;
+  cursor: pointer;
+  transition: transform .1s ease-in;
+  &:hover {
+    transform: scale(1.01);
+  }
+}
+
+.userDetail {
+  @include cardStyle;
+  flex:1;
+  flex-basis: 80%;
 }
 

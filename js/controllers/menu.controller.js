@@ -22,8 +22,6 @@ MenuController.prototype.listen = function() {
             }
         });
     });
-
-    //Add a click handler for burger menu
 };
 
 MenuController.prototype.render = function(hash) {

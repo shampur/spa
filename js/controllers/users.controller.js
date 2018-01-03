@@ -1,7 +1,6 @@
 var $ = require('jquery');
 var globalConstants = require('../utilities/globals');
 var templates = require('../../templates/templates');
-var utils = require('../utilities/utility');
 function UsersController() {
     this.template = 'users';
     this.viewref = 'main-content';
@@ -19,13 +18,19 @@ UsersController.prototype.render = function() {
             var html = compiledTemplate(context);
             $('#' + that.viewref).html(html);
         })
+        .then(function() {
+            $('.users .user').on('click', function () {
+               let idx = $(this).index();
+               window.location.hash = 'usersDetail' + '?id=' + that.users[idx].id;
+            });
+        })
         .catch(function(err){
             $('#' + that.viewref).html(err.toString());
         });
 };
 
 UsersController.prototype.getUsers = function() {
-    var userPromise = new Promise(function(resolve, reject) {
+    var userPromise = new Promise((resolve, reject) => {
         $.ajax({
             url: 'https://jsonplaceholder.typicode.com/users',
             type: 'GET',
